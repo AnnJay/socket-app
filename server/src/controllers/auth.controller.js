@@ -1,5 +1,6 @@
 const { HTTP_STATUS, ERROR_MESSAGES, SUCCESS_MESSAGES } = require("../constants")
 const RequestError = require("../errors/RequestError")
+const { cloud } = require("../lib/cloud")
 const User = require("../models/user.model")
 const {
   generateToken,
@@ -85,6 +86,34 @@ const logout = async (_, res) => {
   }
 }
 
-const updateUserData = async (req, res) => {}
+const updateUserData = async (req, res) => {
+  try {
+    const { avatar } = req.body
+    const userId = req.user._id
 
-module.exports = { login, logout, signUp, updateUserData }
+    if (!avatar) {
+      throw new RequestError(ERROR_MESSAGES.NO_FILE_ATTACHED, HTTP_STATUS.BAD_REQUEST)
+    }
+
+    const uploadResult = await cloud.uploader.upload(avatar)
+    const updatedUser = await User.findByIdAndUpdate(userId, { avatar: uploadResult.secure_url }, { new: true })
+
+    res.status(HTTP_STATUS.SUCCESS).json(updatedUser)
+  } catch (error) {
+    handleError(res, error.statusCode, error.message)
+  }
+}
+
+const checkUserSession = async (req, res) => {
+  try {
+    if (req.user) {
+      res.status(HTTP_STATUS.SUCCESS).json(req.user)
+    } else {
+      throw new RequestError(ERROR_MESSAGES.EXPIRED_SESSION, HTTP_STATUS.UNAUTHORIZED)
+    }
+  } catch (error) {
+    handleError(res, error.statusCode, error.message)
+  }
+}
+
+module.exports = { checkUserSession, login, logout, signUp, updateUserData }

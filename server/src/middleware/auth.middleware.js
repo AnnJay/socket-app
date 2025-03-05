@@ -7,7 +7,7 @@ const User = require("../models/user.model")
 
 const checkAuth = async (req, res, next) => {
   try {
-    const token = res.cookies.jwt
+    const token = req.cookies.jwt
 
     if (!token) {
       throw new RequestError(ERROR_MESSAGES.NO_TOKEN, HTTP_STATUS.UNAUTHORIZED)

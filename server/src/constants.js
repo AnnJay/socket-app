@@ -17,6 +17,8 @@ const ERROR_MESSAGES = {
   NO_TOKEN: "Пользователь не зарегестрирован или истек срок его сессии",
   INVALID_TOKEN: "Неверный токен",
   USER_NOT_FOUND: "Пользователь не найден",
+  NO_FILE_ATTACHED: "Выберите изображение для аватара профиля",
+  EXPIRED_SESSION: "Сессия пользователя истекла",
 }
 
 const SUCCESS_MESSAGES = {
