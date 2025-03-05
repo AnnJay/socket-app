@@ -103,8 +103,6 @@ const logout = async (_, res) => {
   }
 };
 
-const resetPassword = (req, res) => {
-  res.send("forget-password");
-};
+const updateUserData = async (req, res) => {};
 
-module.exports = { login, logout, signUp, resetPassword };
+module.exports = { login, logout, signUp, updateUserData };
