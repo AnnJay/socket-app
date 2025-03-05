@@ -19,6 +19,7 @@ const ERROR_MESSAGES = {
   USER_NOT_FOUND: "Пользователь не найден",
   NO_FILE_ATTACHED: "Выберите изображение для аватара профиля",
   EXPIRED_SESSION: "Сессия пользователя истекла",
+  NO_DATA: "Отсутствуют данные для отправки",
 }
 
 const SUCCESS_MESSAGES = {
