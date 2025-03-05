@@ -29,6 +29,7 @@ const signUp = async (req, res) => {
       email,
       name,
       password: hashedPassword,
+      avatar: "",
     })
 
     if (newUser) {
