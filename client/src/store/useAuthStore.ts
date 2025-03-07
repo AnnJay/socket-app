@@ -16,6 +16,7 @@ interface AuthStoreState {
   isCheckingAuth: boolean
 
   checkAuth: () => Promise<void>
+  signUp: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthStoreState>((set) => ({
@@ -37,4 +38,7 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
       set({ isCheckingAuth: false })
     }
   },
+  signUp: async () => {
+    
+  }
 }))
