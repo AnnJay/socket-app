@@ -1,6 +1,7 @@
-import { Navigate, Route, Routes } from "react-router-dom"
 import { useEffect } from "react"
+import { Navigate, Route, Routes } from "react-router-dom"
 import { Loader } from "lucide-react"
+import { Toaster } from "react-hot-toast"
 
 import { Navigation } from "./components/Navigation"
 import { HomePage } from "./pages/HomePage"
@@ -29,8 +30,10 @@ export const App = () => {
   }
 
   return (
-    <>
+    <div className="pt-16">
       <Navigation />
+
+      <Toaster />
 
       <Routes>
         <Route path="*" element={<NotFound />} />
@@ -40,6 +43,6 @@ export const App = () => {
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
       </Routes>
-    </>
+    </div>
   )
 }

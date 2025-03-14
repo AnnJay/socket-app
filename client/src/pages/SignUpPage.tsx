@@ -1,17 +1,18 @@
 import { FormEvent, useState } from "react"
 import { Link } from "react-router-dom"
-import { Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react"
+import { Eye, EyeOff, Loader2, Lock, Mail, PersonStanding } from "lucide-react"
 
 import { useAuthStore } from "../store/useAuthStore"
+import toast from "react-hot-toast"
 
-interface SignUpFormData {
+export interface SignUpFormData {
   name: string
   email: string
   password: string
 }
 
 export const SignUpPage = () => {
-  const { isSigningUp } = useAuthStore()
+  const { signUp, isSigningUp } = useAuthStore()
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [formData, setFormData] = useState<SignUpFormData>({
@@ -20,16 +21,29 @@ export const SignUpPage = () => {
     password: "",
   })
 
+  const validateForm = () => {
+    if (!formData.name.trim()) return toast.error("Заполните имя")
+    if (!formData.email.trim()) return toast.error("Заполните email")
+    if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Некорректный email")
+    if (!formData.password) return toast.error("Заполните пароль")
+    if (formData.password.length < 6) return toast.error("Минимальная длина пароля - 6 символов")
+
+    return true
+  }
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const isDataValid = validateForm()
+
+    if (isDataValid === true) signUp(formData)
   }
 
   return (
     <div className="min-h-screen">
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+      <div className="flex flex-col justify-center items-center p-8">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold mt-2">Зарегистрироваться</h1>
+            <h1 className="text-2xl font-bold mt-2">Регистрация</h1>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -39,7 +53,7 @@ export const SignUpPage = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="size-5 text-base-content/40" />
+                  <PersonStanding className="size-5 text-base-content/40" />
                 </div>
                 <input
                   type="text"

@@ -1,6 +1,9 @@
 import { create } from "zustand"
+import toast from "react-hot-toast"
 
 import { axiosInstance } from "../libs/axios"
+import { SignUpFormData } from "../pages/SignUpPage"
+import { LoginFormData } from "../pages/LoginPage"
 
 interface User {
   id: string
@@ -16,7 +19,9 @@ interface AuthStoreState {
   isCheckingAuth: boolean
 
   checkAuth: () => Promise<void>
-  signUp: () => Promise<void>
+  login: (formData: LoginFormData) => Promise<void>
+  signUp: (formData: SignUpFormData) => Promise<void>
+  logout: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthStoreState>((set) => ({
@@ -38,7 +43,40 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
       set({ isCheckingAuth: false })
     }
   },
-  signUp: async () => {
-    
-  }
+  login: async (formData) => {
+    set({ isLoggingIn: true })
+
+    try {
+      const res = await axiosInstance.post("/auth/login", formData)
+      set({ authUser: res.data })
+      toast.success('Успешно!')
+    } catch (error) {
+      toast.error("Ошибка при входе пользователя")
+      console.log(error)
+    } finally {
+      set({ isLoggingIn: false })
+    }
+  },
+  signUp: async (formData) => {
+    set({ isSigningUp: true })
+    try {
+      const res = await axiosInstance.post("/auth/sign-up", formData)
+      toast.success("Вы успешно зарегестрировались")
+      set({ authUser: res.data })
+    } catch (error) {
+      toast.error("Ошибка при регистрации пользователя")
+      console.log(error)
+    } finally {
+      set({ isSigningUp: false })
+    }
+  },
+  logout: async () => {
+    try {
+      await axiosInstance.post("/auth/logout")
+      set({ authUser: null })
+      toast.success("Успешно!")
+    } catch (error) {
+      toast.error("Произошла ошибка [logout error].")
+    }
+  },
 }))
