@@ -1,12 +1,31 @@
 import { ChangeEvent } from "react"
 import { ImageUp, Mail, PersonStanding } from "lucide-react"
+import toast from "react-hot-toast"
 
 import { useAuthStore } from "../store/useAuthStore"
 
 export const ProfilePage = () => {
-  const { authUser, isUpdatingProfile } = useAuthStore()
+  const { authUser, isUpdatingProfile, updateProfile } = useAuthStore()
 
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {}
+  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target
+    let file
+
+    if (files && files[0]) {
+      file = files[0]
+    } else {
+      return
+    }
+
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+
+    reader.onload = async () => {
+      const base64Image = reader.result
+      if (typeof base64Image == "string") await updateProfile(base64Image)
+      else toast.error("Проблема с чтением изображения")
+    }
+  }
 
   return (
     <div className="min-h-screen">

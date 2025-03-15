@@ -86,11 +86,11 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
     set({ isUpdatingProfile: true })
 
     try {
-      const res = await axiosInstance.post("/auth/update-user", { avatar: avatarUrl })
+      const res = await axiosInstance.patch("/auth/update-user", { avatar: avatarUrl })
       set({ authUser: res.data })
       toast.success("Поздравляем с новым аватаром!")
     } catch (error) {
-      toast.error("Ошибка при попвтке загрузить изображение")
+      toast.error("Ошибка при попытке загрузить изображение")
       console.log(error)
     } finally {
       set({ isUpdatingProfile: false })
