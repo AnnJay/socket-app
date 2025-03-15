@@ -41,6 +41,7 @@ const signUp = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         avatar: newUser.avatar,
+        createdAr: newUser.createdAt,
       })
     } else {
       throw new RequestError(ERROR_MESSAGES.SIGNUP_ERROR, HTTP_STATUS.BAD_REQUEST)
@@ -69,6 +70,7 @@ const login = async (req, res) => {
         name: existingUser.name,
         email: existingUser.email,
         avatar: existingUser.avatar,
+        createdAt: existingUser.createdAt,
       })
     } else {
       throw new RequestError(ERROR_MESSAGES.INVALID_CREDENTIALS, HTTP_STATUS.NOT_FOUND)

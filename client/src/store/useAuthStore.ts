@@ -9,6 +9,8 @@ interface User {
   id: string
   name: string
   email: string
+  avatar: string
+  createdAt: string
 }
 
 interface AuthStoreState {
@@ -22,6 +24,7 @@ interface AuthStoreState {
   login: (formData: LoginFormData) => Promise<void>
   signUp: (formData: SignUpFormData) => Promise<void>
   logout: () => Promise<void>
+  updateProfile: (avatarUrl: string) => Promise<void>
 }
 
 export const useAuthStore = create<AuthStoreState>((set) => ({
@@ -49,7 +52,7 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
     try {
       const res = await axiosInstance.post("/auth/login", formData)
       set({ authUser: res.data })
-      toast.success('Успешно!')
+      toast.success("Успешно!")
     } catch (error) {
       toast.error("Ошибка при входе пользователя")
       console.log(error)
@@ -77,6 +80,20 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
       toast.success("Успешно!")
     } catch (error) {
       toast.error("Произошла ошибка [logout error].")
+    }
+  },
+  updateProfile: async (avatarUrl) => {
+    set({ isUpdatingProfile: true })
+
+    try {
+      const res = await axiosInstance.post("/auth/update-user", { avatar: avatarUrl })
+      set({ authUser: res.data })
+      toast.success("Поздравляем с новым аватаром!")
+    } catch (error) {
+      toast.error("Ошибка при попвтке загрузить изображение")
+      console.log(error)
+    } finally {
+      set({ isUpdatingProfile: false })
     }
   },
 }))

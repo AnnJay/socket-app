@@ -70,7 +70,7 @@ export const LoginPage = () => {
                 </div>
                 <input
                   type={isPasswordVisible ? "text" : "password"}
-                  className={`input input-accent w-full pl-10`}
+                  className="input input-accent w-full pl-10"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
