@@ -11,9 +11,11 @@ import { SettingsPage } from "./pages/SettingsPage"
 import { ProfilePage } from "./pages/ProfilePage"
 import { NotFound } from "./pages/NotFound"
 import { useAuthStore } from "./store/useAuthStore"
+import { useTheme } from "./store/useTheme"
 
 export const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore()
+  const { theme } = useTheme()
 
   useEffect(() => {
     checkAuth()
@@ -30,7 +32,7 @@ export const App = () => {
   }
 
   return (
-    <div className="pt-16">
+    <div className="pt-16" data-theme={theme}>
       <Navigation />
 
       <Toaster />
