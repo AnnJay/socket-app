@@ -31,7 +31,7 @@ export const ProfilePage = () => {
     <div className="min-h-screen">
       <div className="border w-full max-w-lg m-auto my-10 rounded-lg bg-base-200">
         <div className="p-8 flex flex-col items-center">
-          <h2 className="text-2xl font-bold mb-3 text-slate-800">Профиль</h2>
+          <h2 className="text-2xl font-bold mb-3">Профиль</h2>
           <p className="mb-5">Да-да, это вы!</p>
           <div className="size-40 relative">
             <img
@@ -88,7 +88,7 @@ export const ProfilePage = () => {
 
       <div className="border w-full max-w-lg m-auto my-10 rounded-lg bg-base-200">
         <div className="flex flex-col px-8 py-3">
-          <h3 className="text-lg font-bold mb-3 text-slate-800">Дополнительная информация</h3>
+          <h3 className="text-lg font-bold mb-3">Дополнительная информация</h3>
 
           <div className="flex justify-between border-b border-zinc-700">
             <span>Зарегистрирован</span>
