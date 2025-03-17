@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
 import { LogOut, PersonStanding, Radius, Settings } from "lucide-react"
 
-import { useAuthStore } from "../store/useAuthStore"
+import { useAuthStore } from "../../store/useAuthStore"
+
+
 
 export const Navigation = () => {
   const { authUser, logout } = useAuthStore()

@@ -1,7 +1,7 @@
 import { FC } from "react"
 import { SendHorizontal } from "lucide-react"
 
-import { AvatarSection } from "./AvatarSection"
+import { AvatarSection } from "./sidebar/AvatarSection"
 import { DEFAULT_AVATAR_PATH } from "../constants"
 
 const MOCK_CHAT = [

@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { Loader } from "lucide-react"
 import { Toaster } from "react-hot-toast"
 
-import { Navigation } from "./components/Navigation"
 import { HomePage } from "./pages/HomePage"
 import { SignUpPage } from "./pages/SignUpPage"
 import { LoginPage } from "./pages/LoginPage"
@@ -12,6 +11,7 @@ import { ProfilePage } from "./pages/ProfilePage"
 import { NotFound } from "./pages/NotFound"
 import { useAuthStore } from "./store/useAuthStore"
 import { useTheme } from "./store/useTheme"
+import { Navigation } from "./components/common/Navigation"
 
 export const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore()

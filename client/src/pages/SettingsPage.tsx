@@ -1,5 +1,5 @@
 import { ChatPreview } from "../components/ChatPreview"
-import { ThemeButton } from "../components/ThemeButton"
+import { ThemeButton } from "../components/common/ThemeButton"
 import { THEMES } from "../constants"
 import { useTheme } from "../store/useTheme"
 
