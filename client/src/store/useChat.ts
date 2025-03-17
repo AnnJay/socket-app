@@ -14,6 +14,7 @@ interface ChatStore {
   getUsersList: () => Promise<void>
   getMessagesList: (id: string) => Promise<void>
   sendMessage: (content: MessageContent, userId: string) => Promise<void>
+  setUserTalkTo: (user: User) => void
 }
 
 export const useChat = create<ChatStore>((set) => ({
@@ -59,4 +60,6 @@ export const useChat = create<ChatStore>((set) => ({
       console.log(error)
     }
   },
+
+  setUserTalkTo: (user) => set({ userTalkTo: user }),
 }))
