@@ -12,3 +12,6 @@ export const THEMES: string[] = [
   "halloween",
   "garden",
 ]
+
+export const DEFAULT_THEME_TITLE = "light"
+export const DEFAULT_AVATAR_PATH = "/default_avatar.webp"

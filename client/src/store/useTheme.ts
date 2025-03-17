@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { DEFAULT_THEME_TITLE } from "../constants"
 
 interface ThemeStore {
   theme: string
@@ -6,7 +7,6 @@ interface ThemeStore {
 }
 
 const THEME_STORAGE_KEY = "theme_title"
-const DEFAULT_THEME_TITLE = "retro"
 
 export const useTheme = create<ThemeStore>((set) => ({
   theme: localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME_TITLE,

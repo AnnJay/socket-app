@@ -1,5 +1,8 @@
-import { SendHorizontal } from "lucide-react"
 import { FC } from "react"
+import { SendHorizontal } from "lucide-react"
+
+import { AvatarSection } from "./AvatarSection"
+import { DEFAULT_AVATAR_PATH } from "../constants"
 
 const MOCK_CHAT = [
   {
@@ -32,18 +35,13 @@ export const ChatPreview: FC = () => {
 
       <div className="bg-base-300 rounded-md flex justify-center p-4">
         <div className="bg-base-100 max-w-lg w-full p-4 rounded-md space-y-7">
-          <div className="flex gap-4 justify-start items-center">
-            <img src="/default_avatar.webp" className="rounded-full border-2 size-16" />
-            <div>
-              <p className="font-medium text-sm">Naruto Uzumaki</p>
-              <p className="text-xs text-base-content/70">Online</p>
-            </div>
-          </div>
+          <AvatarSection avatar={DEFAULT_AVATAR_PATH} name="Naruto Uzumaki" status="Online" />
+
           <div className="space-y-4">
             {MOCK_CHAT.map((message) => (
               <div key={message.id} className={`chat chat-${message.isSent ? "end" : "start"}`}>
                 <div className="chat-image avatar">
-                  <div className="w-10 rounded-full border-2">
+                  <div className="max-w-10 rounded-full border-2">
                     <img alt="avatar" src={message.avatar} />
                   </div>
                 </div>
