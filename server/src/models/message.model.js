@@ -12,10 +12,6 @@ const messageSchema = new Schema(
       ref: "User",
       required: true,
     },
-    name: {
-      type: String,
-      required: true,
-    },
     text: {
       type: String,
     },

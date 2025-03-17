@@ -32,7 +32,7 @@ export const App = () => {
   }
 
   return (
-    <div className="pt-16" data-theme={theme}>
+    <div data-theme={theme}>
       <Navigation />
 
       <Toaster />

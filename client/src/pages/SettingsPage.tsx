@@ -7,7 +7,7 @@ export const SettingsPage = () => {
   const { setTheme } = useTheme()
 
   return (
-    <div className="h-screen container mx-auto pt-8">
+    <div className="min-h-screen container mx-auto pt-24">
       <div className="flex flex-col space-y-6">
         <h2 className="text-2xl font-bold">Темы</h2>
         <p className="text-lg text-base-content ">Подберите тему по вкусу</p>

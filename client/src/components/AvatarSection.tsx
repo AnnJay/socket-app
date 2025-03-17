@@ -10,7 +10,7 @@ interface AvatarSectionProps {
 
 export const AvatarSection: FC<AvatarSectionProps> = ({ avatar = DEFAULT_AVATAR_PATH, name, status = "Online" }) => {
   return (
-    <div className="flex gap-4 justify-start items-center">
+    <div className="flex gap-4 justify-start items-center hover:bg-base-200">
       <img src={avatar} className="rounded-full border-2 size-16" />
       <div>
         <p className="font-medium text-sm">{name}</p>

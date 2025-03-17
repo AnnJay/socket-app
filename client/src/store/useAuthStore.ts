@@ -4,14 +4,7 @@ import toast from "react-hot-toast"
 import { axiosInstance } from "../libs/axios"
 import { SignUpFormData } from "../pages/SignUpPage"
 import { LoginFormData } from "../pages/LoginPage"
-
-interface User {
-  id: string
-  name: string
-  email: string
-  avatar: string
-  createdAt: string
-}
+import { User } from "../types/common.type"
 
 interface AuthStoreState {
   authUser: User | null

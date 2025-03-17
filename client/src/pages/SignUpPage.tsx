@@ -39,7 +39,7 @@ export const SignUpPage = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen p-16">
       <div className="flex flex-col justify-center items-center p-8">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center mb-8">
