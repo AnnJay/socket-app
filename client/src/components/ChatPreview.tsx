@@ -2,7 +2,7 @@ import { FC } from "react"
 import { SendHorizontal } from "lucide-react"
 
 import { AvatarSection } from "./sidebar/AvatarSection"
-import { DEFAULT_AVATAR_PATH } from "../constants"
+import { DEFAULT_AVATAR_PATH, ONLINE_STATUS } from "../constants"
 
 const MOCK_CHAT = [
   {
@@ -35,7 +35,7 @@ export const ChatPreview: FC = () => {
 
       <div className="bg-base-300 rounded-md flex justify-center p-4">
         <div className="bg-base-100 max-w-lg w-full p-4 rounded-md space-y-7">
-          <AvatarSection avatar={DEFAULT_AVATAR_PATH} name="Naruto Uzumaki" status="Online" />
+          <AvatarSection avatar={DEFAULT_AVATAR_PATH} name="Naruto Uzumaki" status={ONLINE_STATUS} />
 
           <div className="space-y-4">
             {MOCK_CHAT.map((message) => (

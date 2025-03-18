@@ -28,7 +28,7 @@ export const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen p-16">
       <div className="border w-full max-w-lg m-auto my-10 rounded-lg bg-base-200">
         <div className="p-8 flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-3">Профиль</h2>

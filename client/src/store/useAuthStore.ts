@@ -12,6 +12,7 @@ interface AuthStoreState {
   isLoggingIn: boolean
   isUpdatingProfile: boolean
   isCheckingAuth: boolean
+  onlineUsers: string[]
 
   checkAuth: () => Promise<void>
   login: (formData: LoginFormData) => Promise<void>
@@ -26,6 +27,7 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  onlineUsers: [],
 
   checkAuth: async () => {
     try {
