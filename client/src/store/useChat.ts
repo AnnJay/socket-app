@@ -14,10 +14,10 @@ interface ChatStore {
   getUsersList: () => Promise<void>
   getMessagesList: (id: string) => Promise<void>
   sendMessage: (content: MessageContent, userId: string) => Promise<void>
-  setUserTalkTo: (user: User) => void
+  setUserTalkTo: (user: User | null) => void
 }
 
-export const useChat = create<ChatStore>((set) => ({
+export const useChat = create<ChatStore>((set, get) => ({
   userTalkTo: null,
   users: [],
   messages: [],
@@ -52,9 +52,11 @@ export const useChat = create<ChatStore>((set) => ({
     }
   },
 
-  sendMessage: async (content, userId) => {
+  sendMessage: async (messageContent) => {
+    const { messages, userTalkTo } = get()
     try {
-      const res = await axiosInstance.post(`/message/send/${userId}`, content)
+      const res = await axiosInstance.post(`/message/send/${userTalkTo?._id}`, messageContent)
+      set({ messages: [...messages, res.data] })
     } catch (error) {
       toast.error("Ошибка при отправке сообщения")
       console.log(error)
