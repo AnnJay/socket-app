@@ -12,6 +12,7 @@ export interface MessageContent {
 }
 
 export interface Message extends MessageContent {
+  _id: string
   receiverId: string
   senderId: string
   createdAt: string

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { LogOut, PersonStanding, Radius, Settings } from "lucide-react"
+import { Handshake, LogOut, PersonStanding, Settings } from "lucide-react"
 
 import { useAuthStore } from "../../store/useAuthStore"
 
@@ -17,9 +17,9 @@ export const Navigation = () => {
           <div className="flex justify-between items-center">
             <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-colors">
               <div className="flex justify-center items-center w-10 h-10 rounded-lg bg-base-300">
-                <Radius className="w-8 h-8 text-primary" />
+                <Handshake className="w-8 h-8 text-primary" />
               </div>
-              <h1 className="text-lg font-medium hidden sm:block">Socket-app</h1>
+              <h1 className="text-lg font-medium hidden sm:block">by your side</h1>
             </Link>
 
             <div className="flex items-center gap-3">

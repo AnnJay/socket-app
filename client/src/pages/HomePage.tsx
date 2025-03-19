@@ -1,7 +1,8 @@
 import { useEffect } from "react"
+
 import { LeftSideBar } from "../components/sidebar/LeftSideBar"
 import { useChat } from "../store/useChat"
-import ChatContainer from "../components/ChatContainer"
+import { ChatSection } from "../components/ChatSection"
 import { NoChatContainer } from "../components/NoChatContainer"
 
 export const HomePage = () => {
@@ -17,7 +18,7 @@ export const HomePage = () => {
         <div className="flex justify-between items-start h-full">
           <LeftSideBar />
 
-          {userTalkTo ? <ChatContainer /> : <NoChatContainer />}
+          {userTalkTo ? <ChatSection /> : <NoChatContainer />}
         </div>
       </div>
     </div>

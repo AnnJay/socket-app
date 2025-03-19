@@ -12,7 +12,7 @@ export const LeftSideBar: FC = () => {
   const { isUsersLoading, users, setUserTalkTo, userTalkTo } = useChat()
 
   return (
-    <div className="max-w-20 w-full mr-3 h-full sm:max-w-72">
+    <div className="max-w-20 w-full mr-3 h-full sm:max-w-72 border-r-2 border-base-200">
       <div className="flex items-center mb-5">
         <h2 className="text-2xl font-bold text-base-content mr-4 hidden sm:block">Контакты</h2>
         <UsersRound className="size-5" />
