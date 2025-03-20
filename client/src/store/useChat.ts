@@ -10,10 +10,11 @@ interface ChatStore {
   messages: Message[]
   isUsersLoading: boolean
   isMessagesLoading: boolean
+  isMessageSending: boolean
 
   getUsersList: () => Promise<void>
   getMessagesList: (id: string) => Promise<void>
-  sendMessage: (content: MessageContent, userId: string) => Promise<void>
+  sendMessage: (content: MessageContent) => Promise<void>
   setUserTalkTo: (user: User | null) => void
 }
 
@@ -23,6 +24,7 @@ export const useChat = create<ChatStore>((set, get) => ({
   messages: [],
   isUsersLoading: false,
   isMessagesLoading: false,
+  isMessageSending: false,
 
   getUsersList: async () => {
     set({ isUsersLoading: true })
@@ -43,7 +45,7 @@ export const useChat = create<ChatStore>((set, get) => ({
 
     try {
       const res = await axiosInstance.get(`/message/${userTalkToId}`)
-      set({ users: res.data })
+      set({ messages: res.data })
     } catch (error) {
       toast.error("Не удалось загрузить сообщения пользователя")
       console.log(error)
@@ -54,12 +56,15 @@ export const useChat = create<ChatStore>((set, get) => ({
 
   sendMessage: async (messageContent) => {
     const { messages, userTalkTo } = get()
+    set({ isMessageSending: true })
     try {
       const res = await axiosInstance.post(`/message/send/${userTalkTo?._id}`, messageContent)
       set({ messages: [...messages, res.data] })
     } catch (error) {
       toast.error("Ошибка при отправке сообщения")
       console.log(error)
+    } finally {
+      set({ isMessageSending: false })
     }
   },
 

@@ -9,12 +9,12 @@ interface AvatarSectionProps {
   isUserTalkTo?: boolean
 }
 
-export const AvatarSection: FC<AvatarSectionProps> = ({ avatar = DEFAULT_AVATAR_PATH, name, status, isUserTalkTo }) => {
+export const AvatarSection: FC<AvatarSectionProps> = ({ avatar, name, status, isUserTalkTo }) => {
   return (
     <div className={`p-2 rounded-md ${isUserTalkTo ? "bg-primary" : "hover:bg-base-200"}`}>
       <div className="flex gap-4 justify-start items-center">
         <div className="relative">
-          <img src={avatar} className="rounded-full border-2 size-16" />
+          <img src={avatar || DEFAULT_AVATAR_PATH} className="rounded-full border-2 size-16" />
           <span
             className={`absolute right-0 bottom-1 rounded-full size-4 border-2 
             ${status === ONLINE_STATUS ? "bg-green-500" : "bg-slate-800"}`}
