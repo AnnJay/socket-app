@@ -41,7 +41,7 @@ const signUp = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         avatar: newUser.avatar,
-        createdAr: newUser.createdAt,
+        createdAt: newUser.createdAt,
       })
     } else {
       throw new RequestError(ERROR_MESSAGES.SIGNUP_ERROR, HTTP_STATUS.BAD_REQUEST)

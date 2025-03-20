@@ -2,6 +2,7 @@ const express = require("express")
 const dotenv = require("dotenv")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
+const bodyParser = require("body-parser")
 
 const { authRoutes } = require("./routes/auth.route")
 const { messageRoutes } = require("./routes/message.route")
@@ -18,6 +19,10 @@ app.use(
     credentials: true,
   })
 )
+
+app.use(bodyParser.json({ limit: "2mb" }))
+app.use(bodyParser.urlencoded({ limit: "2mb", extended: true }))
+
 app.use(express.json())
 app.use(cookieParser())
 

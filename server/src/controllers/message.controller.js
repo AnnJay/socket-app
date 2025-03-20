@@ -2,6 +2,7 @@ const { HTTP_STATUS, ERROR_MESSAGES } = require("../constants")
 const RequestError = require("../errors/RequestError")
 const { cloud } = require("../lib/cloud")
 const User = require("../models/user.model")
+const Message = require("../models/message.model")
 const { handleError } = require("../utils/auth.utils")
 
 const getRelatedUsers = async (req, res) => {
