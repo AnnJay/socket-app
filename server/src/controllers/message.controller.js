@@ -4,6 +4,7 @@ const { cloud } = require("../lib/cloud")
 const User = require("../models/user.model")
 const Message = require("../models/message.model")
 const { handleError } = require("../utils/auth.utils")
+const { io, getReceiverSocketId } = require("../lib/socket")
 
 const getRelatedUsers = async (req, res) => {
   try {
@@ -54,6 +55,8 @@ const sendMessage = async (req, res) => {
     const newMessage = new Message({ senderId, receiverId, text, picture: pictureUrl })
 
     await newMessage.save()
+
+    io.to(getReceiverSocketId(receiverId)).emit("message", newMessage)
 
     res.status(HTTP_STATUS.CREATED).json(newMessage)
   } catch (error) {

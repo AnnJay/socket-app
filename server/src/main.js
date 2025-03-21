@@ -7,8 +7,8 @@ const bodyParser = require("body-parser")
 const { authRoutes } = require("./routes/auth.route")
 const { messageRoutes } = require("./routes/message.route")
 const connectDataBase = require("./lib/database")
+const { app, httpServer } = require("./lib/socket")
 
-const app = express()
 dotenv.config()
 
 const PORT = process.env.PORT
@@ -29,7 +29,7 @@ app.use(cookieParser())
 app.use("/api/auth", authRoutes)
 app.use("/api/message", messageRoutes)
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Сервер запущен на порте ${PORT}`)
   connectDataBase()
 })
