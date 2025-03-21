@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useAuthStore } from "../../store/useAuthStore"
 import { useChat } from "../../store/useChat"
 import { ChatSceleton } from "./ChatSceleton"
@@ -6,21 +6,31 @@ import { DEFAULT_AVATAR_PATH } from "../../constants"
 import { formatChatMessageTime } from "../../functions"
 
 export const ChatMessagesSection = () => {
-  const { getMessagesList, isMessagesLoading, messages, userTalkTo } = useChat()
+  const { getMessagesList, isMessagesLoading, messages, userTalkTo, listenToMessages, stopListeningMessages } =
+    useChat()
   const { authUser } = useAuthStore()
+
+  const messageDivRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (userTalkTo) {
       getMessagesList(userTalkTo._id)
+      listenToMessages()
     }
+
+    return () => stopListeningMessages()
   }, [userTalkTo])
+
+  useEffect(() => {
+    if (messageDivRef?.current) messageDivRef.current.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
   return (
     <div className="h-[calc(100%-9rem)] overflow-y-auto pr-4 pb-3">
       {messages.map((message) => {
         const isAuthUserMessage = authUser && message.senderId === authUser._id
         const userInfo = isAuthUserMessage ? authUser : userTalkTo
         return (
-          <div key={message._id} className={`chat chat-${isAuthUserMessage ? "end" : "start"}`}>
+          <div key={message._id} className={`chat chat-${isAuthUserMessage ? "end" : "start"}`} ref={messageDivRef}>
             <div className="chat-image avatar">
               <div className="max-w-10 rounded-full border-2">
                 <img alt="avatar" src={userInfo?.avatar || DEFAULT_AVATAR_PATH} />
