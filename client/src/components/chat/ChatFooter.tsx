@@ -1,5 +1,5 @@
 import { CircleX, ImageUp, SendHorizontal } from "lucide-react"
-import { ChangeEvent, useRef, useState } from "react"
+import { ChangeEvent, KeyboardEvent, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { useChat } from "../../store/useChat"
 
@@ -9,6 +9,8 @@ export const ChatFooter = () => {
   const imageInputRef = useRef<HTMLInputElement | null>(null)
 
   const { sendMessage, isMessageSending } = useChat()
+
+  const isSendBtnDisabled = (!text.trim() && !picture) || isMessageSending
 
   const handleChangeImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target
@@ -35,13 +37,21 @@ export const ChatFooter = () => {
   }
 
   const handleSendMessage = async () => {
-    if (isMessageSending || (!text.trim() && !picture)) return
+    if (isSendBtnDisabled) return
+    try {
+      setPicture("")
+      setText("")
+      if (imageInputRef.current) imageInputRef.current.value = ""
 
-    setPicture("")
-    setText("")
-    if (imageInputRef.current) imageInputRef.current.value = ""
+      sendMessage({ text, picture })
+    } catch (error) {
+      toast.error("Не удалось отправить сообщение")
+    }
+  }
 
-    sendMessage({ text, picture })
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.code === "Enter" && (text || picture)) handleSendMessage()
+    else return
   }
 
   return (
@@ -67,6 +77,7 @@ export const ChatFooter = () => {
         className="input input-bordered  rounded-md w-full"
         value={text}
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
 
       <div className="bg-base-300 hover:bg-base-200 cursor-pointer rounded-md transition-colors border-2">
@@ -79,7 +90,9 @@ export const ChatFooter = () => {
             onChange={handleChangeImage}
             ref={imageInputRef}
           />
-          <ImageUp className="size-8 text-secondary" onClick={() => imageInputRef?.current?.click()} />
+          <button onClick={() => imageInputRef?.current?.click()}>
+            <ImageUp className="size-8 text-neutral" />
+          </button>
         </div>
       </div>
 
@@ -88,7 +101,9 @@ export const ChatFooter = () => {
         onClick={handleSendMessage}
       >
         <div className="flex items-center justify-center  size-12 ">
-          <SendHorizontal className="size-8 text-secondary" />
+          <button disabled={isSendBtnDisabled}>
+            <SendHorizontal className={`size-8 ${isSendBtnDisabled ? "text-neutral/50" : "text-neutral"}`} />
+          </button>
         </div>
       </div>
     </div>

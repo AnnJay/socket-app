@@ -3,6 +3,7 @@ import { useAuthStore } from "../../store/useAuthStore"
 import { useChat } from "../../store/useChat"
 import { ChatSceleton } from "./ChatSceleton"
 import { DEFAULT_AVATAR_PATH } from "../../constants"
+import { formatChatMessageTime } from "../../functions"
 
 export const ChatMessagesSection = () => {
   const { getMessagesList, isMessagesLoading, messages, userTalkTo } = useChat()
@@ -14,7 +15,7 @@ export const ChatMessagesSection = () => {
     }
   }, [userTalkTo])
   return (
-    <div className="h-[calc(100%-9rem)] overflow-y-auto">
+    <div className="h-[calc(100%-9rem)] overflow-y-auto pr-4 pb-3">
       {messages.map((message) => {
         const isAuthUserMessage = authUser && message.senderId === authUser._id
         const userInfo = isAuthUserMessage ? authUser : userTalkTo
@@ -26,14 +27,14 @@ export const ChatMessagesSection = () => {
               </div>
             </div>
             <div className="chat-header">
-              <time className="text-xs opacity-50 mx-2">{message.createdAt.split("T")[1].slice(0, 5)}</time>
+              <time className="text-xs opacity-50 mx-2">{formatChatMessageTime(message.createdAt)}</time>
             </div>
-            {message?.text && <div className="chat-bubble">{message.text}</div>}
-            {message?.picture && typeof message.picture === "string" && (
-              <div className="chat-bubble">
+            <div className="chat-bubble flex flex-col gap-y-2">
+              {message?.text && <div>{message.text}</div>}
+              {message?.picture && typeof message.picture === "string" && (
                 <img src={message.picture} className="size-40" />
-              </div>
-            )}
+              )}
+            </div>
           </div>
         )
       })}
