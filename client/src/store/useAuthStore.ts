@@ -1,7 +1,8 @@
 import { create } from "zustand"
 import toast from "react-hot-toast"
+import { io, Socket } from "socket.io-client"
 
-import { axiosInstance } from "../libs/axios"
+import { axiosInstance, BASE_URL } from "../libs/axios"
 import { SignUpFormData } from "../pages/SignUpPage"
 import { LoginFormData } from "../pages/LoginPage"
 import { User } from "../types/common.type"
@@ -12,6 +13,7 @@ interface AuthStoreState {
   isLoggingIn: boolean
   isUpdatingProfile: boolean
   isCheckingAuth: boolean
+  socket: Socket | null
   onlineUsers: string[]
 
   checkAuth: () => Promise<void>
@@ -19,14 +21,17 @@ interface AuthStoreState {
   signUp: (formData: SignUpFormData) => Promise<void>
   logout: () => Promise<void>
   updateProfile: (avatarUrl: string) => Promise<void>
+  connectSocket: () => Promise<void>
+  disconnectSocket: () => Promise<void>
 }
 
-export const useAuthStore = create<AuthStoreState>((set) => ({
+export const useAuthStore = create<AuthStoreState>((set, get) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  socket: null,
   onlineUsers: [],
 
   checkAuth: async () => {
@@ -34,6 +39,7 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
       const res = await axiosInstance.get("/auth/check-user")
 
       set({ authUser: res.data })
+      get().connectSocket()
     } catch (error) {
       console.log("Произошла ошибка при проверке сессии", error)
       set({ authUser: null })
@@ -48,6 +54,8 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
       const res = await axiosInstance.post("/auth/login", formData)
       set({ authUser: res.data })
       toast.success("Успешно!")
+
+      get().connectSocket()
     } catch (error) {
       toast.error("Ошибка при входе пользователя")
       console.log(error)
@@ -61,6 +69,8 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
       const res = await axiosInstance.post("/auth/sign-up", formData)
       toast.success("Вы успешно зарегестрировались")
       set({ authUser: res.data })
+
+      get().connectSocket()
     } catch (error) {
       toast.error("Ошибка при регистрации пользователя")
       console.log(error)
@@ -73,6 +83,8 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
       await axiosInstance.post("/auth/logout")
       set({ authUser: null })
       toast.success("Успешно!")
+
+      get().disconnectSocket()
     } catch (error) {
       toast.error("Произошла ошибка [logout error].")
     }
@@ -90,5 +102,31 @@ export const useAuthStore = create<AuthStoreState>((set) => ({
     } finally {
       set({ isUpdatingProfile: false })
     }
+  },
+  connectSocket: async () => {
+    const { authUser, socket } = get()
+    if (socket?.connected) return
+
+    const socketInstance = io(BASE_URL, {
+      query: {
+        userId: authUser?._id,
+      },
+    })
+    socketInstance.connect()
+
+    set({ socket: socketInstance })
+
+    socketInstance?.on("broadcastOnlineUsers", (onlineUsersIds) => {
+      set({ onlineUsers: onlineUsersIds })
+    })
+  },
+
+  disconnectSocket: async () => {
+    const { socket } = get()
+
+    if (!socket?.connected) return
+
+    socket.disconnect()
+    set({ socket: null })
   },
 }))

@@ -3,6 +3,7 @@ import { create } from "zustand"
 import { Message, MessageContent, User } from "../types/common.type"
 import { axiosInstance } from "../libs/axios"
 import toast from "react-hot-toast"
+import { useAuthStore } from "./useAuthStore"
 
 interface ChatStore {
   userTalkTo: User | null
@@ -16,6 +17,8 @@ interface ChatStore {
   getMessagesList: (id: string) => Promise<void>
   sendMessage: (content: MessageContent) => Promise<void>
   setUserTalkTo: (user: User | null) => void
+  listenToMessages: () => void
+  stopListeningMessages: () => void
 }
 
 export const useChat = create<ChatStore>((set, get) => ({
@@ -66,6 +69,24 @@ export const useChat = create<ChatStore>((set, get) => ({
     } finally {
       set({ isMessageSending: false })
     }
+  },
+
+  listenToMessages: () => {
+    const { userTalkTo } = get()
+
+    if (!userTalkTo) return
+
+    const socket = useAuthStore.getState().socket
+
+    socket?.on("message", (message) => {
+      if (message.senderId === userTalkTo._id) set({ messages: [...get().messages, message] })
+    })
+  },
+
+  stopListeningMessages: () => {
+    const socket = useAuthStore.getState().socket
+
+    socket?.off("message")
   },
 
   setUserTalkTo: (user) => set({ userTalkTo: user }),
