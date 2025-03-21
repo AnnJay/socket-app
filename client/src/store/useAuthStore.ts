@@ -2,7 +2,7 @@ import { create } from "zustand"
 import toast from "react-hot-toast"
 import { io, Socket } from "socket.io-client"
 
-import { axiosInstance, BASE_URL } from "../libs/axios"
+import { axiosInstance } from "../libs/axios"
 import { SignUpFormData } from "../pages/SignUpPage"
 import { LoginFormData } from "../pages/LoginPage"
 import { User } from "../types/common.type"
@@ -24,6 +24,8 @@ interface AuthStoreState {
   connectSocket: () => Promise<void>
   disconnectSocket: () => Promise<void>
 }
+
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/"
 
 export const useAuthStore = create<AuthStoreState>((set, get) => ({
   authUser: null,
